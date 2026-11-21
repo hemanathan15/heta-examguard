@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block bodyclass %}auth{% endblock %}{% block body %}<main class="wrap narrow"><div class="card glass center"><h1 class="bad">EXAM SESSION TERMINATED</h1>
+<p>Your assessment session has ended because an examination rule was triggered.</p>
+<table class="kv"><tr><td>Student</td><td>{{ me.name }} ({{ st.student_id }})</td></tr><tr><td>Assessment</td><td>{{ a.title }}</td></tr><tr><td>Reason</td><td>{{ s.end_reason }}</td></tr><tr><td>Time</td><td>{{ (s.ended_at or '').replace('T',' ') }}</td></tr><tr><td>Session ID</td><td>#{{ s.id }}</td></tr></table>
+<p class="small">Answers saved before termination were preserved. Automated detection can be wrong — contact your examiner if you believe this was a mistake.</p><a class="btn" href="{{ url_for('student_dashboard') }}">Dashboard</a></div></main>{% endblock %}

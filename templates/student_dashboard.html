@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block body %}
+<header class="nav"><a class="logo" href="/">🛡️ EXAMGUARD <b>AI</b></a><nav><span>{{ me.name }} · {{ st.student_id }}</span><a class="btn ghost" href="{{ url_for('logout') }}">Logout</a></nav></header>
+<main class="wrap"><div class="card profile"><h2>Welcome, {{ me.name }}</h2><p>Student ID: <b>{{ st.student_id }}</b> · {{ me.email }}</p></div>
+<h2>Assessments</h2><div class="grid">{% for a, s, state in items %}<div class="card hover"><span class="badge {{ state }}">{{ state.replace('_',' ') }}</span><h3>{{ a.title }}</h3><p>{{ a.description }}</p>
+<p class="small">⏱ {{ a.duration }} min · {{ a.nq }} questions{% if a.start_time %} · opens {{ a.start_time.replace('T',' ') }}{% endif %}</p>
+{% if state == 'completed' %}{% if s.status == 'terminated' %}<p class="bad">Terminated</p><a class="btn ghost" href="{{ url_for('terminated', sid=s.id) }}">Details</a>{% else %}<p>Score: <b>{{ s.score|round(1) }}/{{ s.total_marks|round(1) }}</b> ({{ s.percentage }}%) — {{ 'PASS' if s.passed else 'FAIL' }}</p><a class="btn ghost" href="{{ url_for('result', sid=s.id) }}">View result</a>{% endif %}
+{% elif state == 'in_progress' %}<a class="btn" href="{{ url_for('exam', sid=s.id) }}">Resume exam</a>
+{% elif state == 'available' %}<a class="btn" href="{{ url_for('exam_instructions', aid=a.id) }}">Start assessment</a>{% else %}<button class="btn" disabled>Not available</button>{% endif %}</div>
+{% else %}<p>No published assessments yet.</p>{% endfor %}</div></main>{% endblock %}

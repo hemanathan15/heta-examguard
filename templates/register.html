@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block brainmode %}hero{% endblock %}{% block bodyclass %}auth{% endblock %}
+{% block body %}<main class="authbox"><form method="post" class="card glass"><h2>Student Registration</h2><input type="hidden" name="csrf_token" value="{{ csrf }}">
+<label>Full name<input name="name" required></label><label>Student ID<input name="student_id" required></label><label>Email<input type="email" name="email" required></label>
+<label>Password (8+ chars)<input type="password" name="password" minlength="8" required></label><button class="btn big">Create account</button><p class="small"><a href="{{ url_for('student_login') }}">Back to login</a></p></form></main>{% endblock %}

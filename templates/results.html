@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block brainmode %}calm{% endblock %}{% block body %}
+<main class="wrap narrow"><div class="card glass center"><h1 class="grad">ASSESSMENT COMPLETED</h1>
+<div class="ring" style="--p:{{ r.percentage }}"><span class="count" data-to="{{ r.percentage }}">0</span>%</div>
+<h2 class="{{ 'ok' if r.passed else 'bad' }}">{{ 'PASSED' if r.passed else 'NOT PASSED' }}</h2>
+<table class="kv"><tr><td>Student</td><td>{{ me.name }}</td></tr><tr><td>Student ID</td><td>{{ st.student_id }}</td></tr><tr><td>Assessment</td><td>{{ a.title }}</td></tr>
+<tr><td>Total questions</td><td>{{ r.correct + r.incorrect + r.unanswered }}</td></tr><tr><td>Correct</td><td class="ok">{{ r.correct }}</td></tr><tr><td>Incorrect</td><td class="bad">{{ r.incorrect }}</td></tr><tr><td>Unanswered</td><td>{{ r.unanswered }}</td></tr>
+<tr><td>Score</td><td>{{ r.score|round(1) }} / {{ r.total_marks|round(1) }}</td></tr><tr><td>Percentage</td><td>{{ r.percentage }}%</td></tr>
+<tr><td>Time taken</td><td>{{ r.time_taken // 60 }}m {{ r.time_taken % 60 }}s</td></tr><tr><td>Submitted</td><td>{{ r.submitted_at.replace('T',' ') }}</td></tr></table>
+<div class="row center">{% if a.show_answers %}<a class="btn" href="{{ url_for('review', sid=s.id) }}">Review answers</a>{% endif %}<a class="btn ghost" href="{{ url_for('student_dashboard') }}">Dashboard</a></div></div></main>{% endblock %}

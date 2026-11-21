@@ -1,0 +1,6 @@
+{% extends "admin_base.html" %}{% block content %}<div class="row between"><h1>Assessments</h1><a class="btn" href="{{ url_for('assessment_form') }}">+ Create assessment</a></div>
+<div class="card"><table><tr><th>Title</th><th>Subject</th><th>Qs</th><th>Min</th><th>Status</th><th>Actions</th></tr>
+{% for a in rows %}<tr><td>{{ a.title }}</td><td>{{ a.subject }}</td><td>{{ a.nq }}</td><td>{{ a.duration }}</td><td><span class="badge {{ 'available' if a.published else 'closed' }}">{{ 'Published' if a.published else 'Draft' }}</span></td>
+<td class="acts"><a class="btn sm ghost" href="{{ url_for('question_editor', aid=a.id) }}">Questions</a><a class="btn sm ghost" href="{{ url_for('assessment_form', aid=a.id) }}">Edit</a>
+<form method="post" action="{{ url_for('assessment_action', aid=a.id, action='unpublish' if a.published else 'publish') }}"><input type="hidden" name="csrf_token" value="{{ csrf }}"><button class="btn sm">{{ 'Unpublish' if a.published else 'Publish' }}</button></form>
+<form method="post" action="{{ url_for('assessment_action', aid=a.id, action='delete') }}" onsubmit="return confirm('Delete this assessment and all its sessions/results?')"><input type="hidden" name="csrf_token" value="{{ csrf }}"><button class="btn sm danger">Delete</button></form></td></tr>{% endfor %}</table></div>{% endblock %}

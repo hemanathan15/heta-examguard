@@ -1,0 +1,13 @@
+{% extends "admin_base.html" %}{% block content %}<div class="row between"><h1>Questions — {{ a.title }}</h1><a class="btn ghost" href="{{ url_for('assessment_manager') }}">← Assessments</a></div>
+<form method="post" class="card formgrid"><input type="hidden" name="csrf_token" value="{{ csrf }}">{% if edit %}<input type="hidden" name="qid" value="{{ edit.id }}">{% endif %}<h3 class="full">{{ 'Edit question' if edit else 'Add question' }}</h3>
+<label class="full">Question<textarea name="text" required>{{ edit.text if edit else '' }}</textarea></label>
+{% for k in 'abcd' %}<label>Option {{ k|upper }}<input name="{{ k }}" value="{{ edit[k] if edit else '' }}" required></label>{% endfor %}
+<label>Correct answer<select name="correct">{% for k in 'abcd' %}<option value="{{ k }}" {{ 'selected' if edit and edit.correct==k }}>{{ k|upper }}</option>{% endfor %}</select></label>
+<label>Marks<input type="number" step="0.5" min="0" name="marks" value="{{ edit.marks if edit else a.marks_per_question }}"></label>
+<label class="full">Explanation<textarea name="explanation">{{ edit.explanation if edit else '' }}</textarea></label>
+<div class="full"><button class="btn">{{ 'Update' if edit else 'Add question' }}</button>{% if edit %} <a class="btn ghost" href="{{ url_for('question_editor', aid=a.id) }}">Cancel</a>{% endif %}</div></form>
+<h3>{{ qs|length }} question(s) — preview</h3>{% for x in qs %}<div class="card"><div class="row between"><b>Q{{ loop.index }}. {{ x.text }}</b><span class="acts">
+<form method="post" action="{{ url_for('question_action', qid=x.id, action='up') }}"><input type="hidden" name="csrf_token" value="{{ csrf }}"><button class="btn sm ghost">↑</button></form>
+<form method="post" action="{{ url_for('question_action', qid=x.id, action='down') }}"><input type="hidden" name="csrf_token" value="{{ csrf }}"><button class="btn sm ghost">↓</button></form>
+<a class="btn sm ghost" href="?edit={{ x.id }}">Edit</a><form method="post" action="{{ url_for('question_action', qid=x.id, action='delete') }}" onsubmit="return confirm('Delete question?')"><input type="hidden" name="csrf_token" value="{{ csrf }}"><button class="btn sm danger">Delete</button></form></span></div>
+{% for k in 'abcd' %}<div class="opt {{ 'right' if k==x.correct }}"><b>{{ k|upper }}.</b> {{ x[k] }}</div>{% endfor %}{% if x.explanation %}<p class="expl">💡 {{ x.explanation }}</p>{% endif %}<p class="small">{{ x.marks }} mark(s)</p></div>{% endfor %}{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "admin_base.html" %}{% block content %}<h1>Dashboard</h1><div class="cards">{% for l, n in cards %}<div class="card stat"><b>{{ n }}</b><span>{{ l }}</span></div>{% endfor %}</div>
+<div class="grid2"><div class="card"><h3>Exam participation</h3><canvas id="c1"></canvas></div><div class="card"><h3>Average score (%)</h3><canvas id="c2"></canvas></div>
+<div class="card"><h3>Pass / fail</h3><canvas id="c3"></canvas></div><div class="card"><h3>Monthly activity</h3><canvas id="c4"></canvas></div></div>
+<script id="ch" type="application/json">{{ ch|tojson }}</script>{% endblock %}
+{% block scripts %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script><script>
+const C=JSON.parse(document.getElementById('ch').textContent);Chart.defaults.color='#cbd5e1';const col=['#22d3ee','#8b5cf6','#38bdf8','#f472b6','#34d399'];
+new Chart(c1,{type:'bar',data:{labels:C.part[0],datasets:[{data:C.part[1],backgroundColor:col[0]}]},options:{plugins:{legend:{display:false}}}});
+new Chart(c2,{type:'bar',data:{labels:C.avg[0],datasets:[{data:C.avg[1],backgroundColor:col[1]}]},options:{plugins:{legend:{display:false}},scales:{y:{max:100,beginAtZero:true}}}});
+new Chart(c3,{type:'doughnut',data:{labels:['Pass','Fail'],datasets:[{data:C.pf,backgroundColor:['#34d399','#f87171']}]}});
+new Chart(c4,{type:'line',data:{labels:C.mo[0],datasets:[{data:C.mo[1],borderColor:col[0],tension:.3}]},options:{plugins:{legend:{display:false}}}});
+</script>{% endblock %}

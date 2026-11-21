@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block brainmode %}hero{% endblock %}{% block bodyclass %}auth{% endblock %}
+{% block body %}<main class="authbox"><form method="post" class="card glass"><a class="logo" href="/">🛡️ EXAMGUARD <b>AI</b></a><h2>Student Login</h2>
+<input type="hidden" name="csrf_token" value="{{ csrf }}"><label>Student ID or email<input name="identifier" required autofocus></label><label>Password<input type="password" name="password" required></label><button class="btn big">Sign in</button><p class="small"><a href="{{ url_for('register') }}">Register</a> · <a href="{{ url_for('forgot') }}">Forgot password?</a></p><p class="small"><a href="/">← Home</a></p></form></main>{% endblock %}

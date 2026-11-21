@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block brainmode %}hero{% endblock %}{% block bodyclass %}landing{% endblock %}
+{% block body %}
+<header class="nav"><a class="logo" href="/">🛡️ EXAMGUARD <b>AI</b></a><nav><a href="#features">Features</a><a href="#monitoring">Monitoring</a><a href="#privacy">Privacy</a>
+<a class="btn ghost" href="{{ url_for('admin_login') }}">Admin Login</a><a class="btn" href="{{ url_for('student_login') }}">Student Login</a></nav></header>
+<section class="hero"><div><span class="tag">Think Smart. Test Secure. Perform Better.</span><h1>Intelligence Meets <span class="grad">Integrity.</span></h1>
+<p>An intelligent online assessment platform built for focused learning, secure examinations and smarter evaluation.</p>
+<div class="row"><a class="btn big" href="{{ url_for('student_login') }}">Student Login</a><a class="btn big ghost" href="{{ url_for('admin_login') }}">Admin Login</a></div></div>
+<svg class="brainsvg" viewBox="0 0 200 160" aria-hidden="true"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+<path class="outline" fill="none" stroke="url(#g)" stroke-width="2.5" d="M100 20c-12-12-38-8-42 12-18 2-28 22-18 38-8 16 2 34 20 36 6 14 26 18 40 6 14 12 34 8 40-6 18-2 28-20 20-36 10-16 0-36-18-38-4-20-30-24-42-12zM100 22v120"/>
+<g fill="none" stroke="#38bdf8" stroke-opacity=".6"><path d="M62 60c14 4 24 0 38 10M138 60c-14 4-24 0-38 10M64 100c14-6 26 0 36 8M136 100c-14-6-26 0-36 8"/></g>
+<g class="nodes" fill="#22d3ee"><circle cx="62" cy="60" r="3"/><circle cx="100" cy="70" r="3"/><circle cx="138" cy="60" r="3"/><circle cx="64" cy="100" r="3"/><circle cx="100" cy="108" r="3"/><circle cx="136" cy="100" r="3"/></g>
+<path d="M100 60l16 7v14c0 10-8 17-16 20-8-3-16-10-16-20V67z" fill="rgba(34,211,238,.12)" stroke="#22d3ee"/></svg></section>
+<section id="features" class="wrap"><h2>Platform features</h2><div class="grid">
+<div class="card"><h3>📝 Assessments</h3><p>Admins build MCQ exams with timers, access codes, passing scores and optional answer review.</p></div>
+<div class="card"><h3>📊 Automated scoring</h3><p>Instant server-side grading with detailed results and answer review with explanations.</p></div>
+<div class="card"><h3>📈 Reports</h3><p>Dashboards, charts, filters and CSV export for results and monitoring logs.</p></div></div></section>
+<section id="monitoring" class="wrap"><h2>AI monitoring overview</h2><div class="grid">
+<div class="card"><h3>📷 Camera presence</h3><p>Detects sustained face absence and multiple people, with grace periods and warnings.</p></div>
+<div class="card"><h3>📱 Possible phones</h3><p>Flags potential phones with a confidence score for examiner review — never as proof.</p></div>
+<div class="card"><h3>🧭 Navigation</h3><p>Tracks tab switches and fullscreen exits. Browsers cannot be fully locked down; a dedicated secure browser is a future option.</p></div></div></section>
+<section id="privacy" class="wrap"><h2>Privacy</h2><div class="card"><p>Camera use is disclosed and requires consent. Video is processed in your browser and <b>never recorded or uploaded</b>; only event type, confidence and timestamp are stored, and retained for a limited period. We collect only your name, email and student ID.</p></div></section>
+<footer>© EXAMGUARD AI — Think Smart. Test Secure. Perform Better.</footer>{% endblock %}

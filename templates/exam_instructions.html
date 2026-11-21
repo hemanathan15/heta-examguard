@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% block body %}
+<main class="wrap narrow"><div class="card glass"><h1>{{ a.title }}</h1><p>{{ a.description }}</p>
+<div class="stats"><div><b>{{ a.duration }}</b><span>minutes</span></div><div><b>{{ nq }}</b><span>questions</span></div><div><b>{{ a.marks_per_question }}</b><span>marks each</span></div><div><b>{{ a.passing_score }}%</b><span>to pass</span></div></div>
+<h3>Instructions</h3><p style="white-space:pre-line">{{ a.instructions }}</p>
+<h3>Rules &amp; monitoring notice</h3><ul><li>The exam auto-submits when the timer ends. Each assessment can be attempted once.</li>
+{% if a.camera_monitoring %}<li><b>Camera monitoring is enabled.</b> Video is analysed inside your browser and is <b>never recorded or uploaded</b>. Only event type, confidence and time are stored. Face absence, multiple people and possible phones are flagged for examiner review — detections can be wrong and are not treated as proof of cheating.</li>{% endif %}
+{% if a.nav_monitoring %}<li>Fullscreen is requested. Tab switches and leaving fullscreen are logged; more than {{ a.warning_limit }} warning(s) ends the exam. (Browsers cannot fully block navigation.)</li>{% endif %}
+{% if a.show_answers %}<li>You can review answers and explanations after submission.</li>{% endif %}</ul>
+{% if a.camera_monitoring %}<h3>Camera check</h3><video id="preview" autoplay muted playsinline></video><ul class="checks"><li id="c1">⏳ Camera access</li><li id="c2">⏳ Face detection ready</li></ul><button class="btn ghost" id="camBtn" type="button">Enable camera</button>{% endif %}
+<form method="post" action="{{ url_for('exam_start', aid=a.id) }}" id="startForm"><input type="hidden" name="csrf_token" value="{{ csrf }}">
+{% if a.access_code %}<label>Access code<input name="code" required></label>{% endif %}
+<label class="chk"><input type="checkbox" name="consent" required> I have read the rules and consent to the monitoring described above.</label>
+<button class="btn big" id="startBtn" {% if a.camera_monitoring %}disabled{% endif %}>Start exam</button></form>
+<p class="small"><a href="{{ url_for('student_dashboard') }}">← Back</a></p></div></main>{% endblock %}
+{% block scripts %}{% if a.camera_monitoring %}<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0"></script><script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
+<script>
+const $=id=>document.getElementById(id);
+$('camBtn').onclick=async()=>{try{const s=await navigator.mediaDevices.getUserMedia({video:true});$('preview').srcObject=s;$('c1').textContent='✅ Camera access';
+$('c2').textContent='⏳ Loading detection model…';const m=await cocoSsd.load();
+const tryDetect=async()=>{const p=(await m.detect($('preview'))).filter(x=>x.class==='person'&&x.score>.5);
+ if(p.length){$('c2').textContent='✅ Face/person detected — ready';$('startBtn').disabled=false}else{$('c2').textContent='⚠️ No face detected — face the camera';setTimeout(tryDetect,1500)}};tryDetect();
+}catch(e){$('c1').textContent='❌ Camera blocked or unavailable — allow camera access and retry'}};
+</script>{% endif %}{% endblock %}

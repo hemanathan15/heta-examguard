@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block body %}<main class="wrap narrow"><h1>Answer review — {{ a.title }}</h1>
+{% for x in rows %}{% set st = 'un' if not x.selected else ('ok' if x.selected == x.correct else 'bad') %}
+<div class="card rv {{ st }}"><p class="small">Question {{ loop.index }} · <b>{{ 'Unanswered' if st=='un' else ('Correct' if st=='ok' else 'Incorrect') }}</b></p><h3>{{ x.text }}</h3>
+{% for k in 'abcd' %}<div class="opt {{ 'right' if k==x.correct else ('wrong' if k==x.selected else '') }}"><b>{{ k|upper }}.</b> {{ x[k] }}{% if k==x.selected %} <em>← your answer</em>{% endif %}{% if k==x.correct %} <em>✔ correct</em>{% endif %}</div>{% endfor %}
+<p>Your answer: <b>{{ (x.selected|upper ~ '. ' ~ x[x.selected]) if x.selected else '—' }}</b> · Correct answer: <b>{{ x.correct|upper }}. {{ x[x.correct] }}</b></p>
+{% if x.explanation %}<p class="expl">💡 {{ x.explanation }}</p>{% endif %}</div>{% endfor %}
+<a class="btn" href="{{ url_for('result', sid=s.id) }}">← Result</a></main>{% endblock %}

@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block bodyclass %}auth{% endblock %}
+{% block body %}<main class="authbox"><form method="post" class="card glass"><h2>Forgot password</h2><input type="hidden" name="csrf_token" value="{{ csrf }}">
+<label>Email or Student ID<input name="identifier" required></label><button class="btn big">Request help</button><p class="small">Your administrator can issue a temporary password.</p><p class="small"><a href="{{ url_for('student_login') }}">Back</a></p></form></main>{% endblock %}

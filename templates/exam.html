@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block bg %}{% endblock %}{% block bodyclass %}examview{% endblock %}
+{% block body %}
+<header class="exambar"><div><b>{{ a.title }}</b><span class="small"> · {{ me.name }}</span></div><div class="row">
+{% if a.camera_monitoring %}<span id="camStatus" class="pill">📷 starting…</span>{% endif %}<span id="monStatus" class="pill">🛡️ {{ 'Monitoring on' if a.nav_monitoring or a.camera_monitoring else 'Standard' }}</span>
+<span id="timer" class="timer">--:--</span></div></header>
+<div id="warn" class="warnbar" hidden></div>
+<main class="examgrid"><aside class="card"><h4>Questions</h4><div id="nav" class="qnav"></div><p class="small"><i class="d a"></i> answered <i class="d m"></i> review <i class="d"></i> open</p>
+{% if a.camera_monitoring %}<video id="cam" autoplay muted playsinline></video>{% endif %}<button class="btn" id="submitBtn" type="button">Submit exam</button></aside>
+<section class="card"><p class="small" id="qcount"></p><h2 id="qtext"></h2><div id="opts"></div>
+<div class="row between"><button class="btn ghost" id="prev">← Previous</button><button class="btn ghost" id="mark">⚑ Mark for review</button><button class="btn" id="next">Next →</button></div></section></main>
+<div id="modal" class="modal" hidden><div class="card glass"><h3>Submit exam?</h3><p id="modalMsg"></p><div class="row"><button class="btn ghost" id="cancel">Keep working</button><button class="btn" id="confirm">Yes, submit</button></div></div></div>
+<div id="fsGate" class="modal" hidden><div class="card glass"><h3>Fullscreen required</h3><p>Click to enter fullscreen and begin.</p><button class="btn big" id="fsBtn">Enter fullscreen</button></div></div>
+<script id="boot" type="application/json">{{ boot|tojson }}</script>{% endblock %}
+{% block scripts %}{% if a.camera_monitoring %}<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0"></script><script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>{% endif %}
+<script src="{{ url_for('static', filename='js/exam.js') }}"></script><script src="{{ url_for('static', filename='js/monitoring.js') }}"></script>{% endblock %}

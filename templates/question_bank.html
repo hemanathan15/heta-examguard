@@ -1,0 +1,2 @@
+{% extends "admin_base.html" %}{% block content %}<h1>Question Bank</h1><div class="card"><table><tr><th>Assessment</th><th>#</th><th>Question</th><th>Answer</th><th></th></tr>
+{% for x in rows %}<tr><td>{{ x.title }}</td><td>{{ x.position }}</td><td>{{ x.text }}</td><td>{{ x.correct|upper }}</td><td><a class="btn sm ghost" href="{{ url_for('question_editor', aid=x.assessment_id, edit=x.id) }}">Edit</a></td></tr>{% endfor %}</table></div>{% endblock %}

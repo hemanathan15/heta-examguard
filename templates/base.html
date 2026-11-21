@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="csrf-token" content="{{ csrf }}"><title>{% block title %}EXAMGUARD AI{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+<body class="{% block bodyclass %}{% endblock %}"><div id="loader"><div class="pulse"></div><p>EXAMGUARD AI</p></div>
+{% block bg %}<canvas id="brain" data-mode="{% block brainmode %}calm{% endblock %}"></canvas>{% endblock %}
+<div class="flashes">{% for c, m in get_flashed_messages(with_categories=true) %}<div class="flash {{ c }}">{{ m }}</div>{% endfor %}</div>
+{% block body %}{% endblock %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>{% block scripts %}{% endblock %}</body></html>
